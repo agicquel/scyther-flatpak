@@ -1,0 +1,116 @@
+{
+    "app-id": "org.cispa.Scyther",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "3.36",
+    "sdk": "org.gnome.Sdk",
+    "command": "/app/bin/python2 /app/scyther/scyther-gui.py",
+    "modules": [
+        "shared-modules/python2.7/python-2.7.json",
+        {
+            "name": "graphviz",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.com/graphviz/graphviz/-/archive/stable_release_2.42.0/graphviz-stable_release_2.42.0.tar.bz2",
+                    "sha256": "9bad395e07c0a2b7c3f29616d8252bb21975ef19fc2b3f36e7daff9b59050a01"
+                }
+            ]
+        },
+        {
+            "name": "wxPython",
+            "config-opts": [
+              "--prefix=/usr",
+              "--with-gtk=2",
+              "--disable-monolithic",
+              "--disable-rpath",
+              "--with-opengl",
+              "--with-gnomeprint",
+              "--enable-geometry",
+              "--enable-sound",
+              "--with-sdl",
+              "--enable-unicode",
+              "--enable-graphics_ctx",
+              "--disable-optimize",
+              "--enable-mediactrl",
+              "--with-libpng=builtin",
+              "--with-zlib=builtin",
+              "--with-libjpeg=builtin",
+              "--with-libtiff=builtin",
+              "--disable-precomp-headers"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://downloads.sourceforge.net/wxpython/wxPython-src-3.0.2.0.tar.bz2",
+                    "sha256": "d54129e5fbea4fb8091c87b2980760b72c22a386cb3b9dd2eebc928ef5e8df61"
+                }
+            ],
+            "modules": [
+                "shared-modules/dbus-glib/dbus-glib-0.110.json",
+                "shared-modules/gtk2/gtk2.json",
+                "shared-modules/glu/glu-9.json"
+            ]
+        },
+        {
+            "name": "wxwidgets",
+            "rm-configure": true,
+            "config-opts": [
+              "--enable-shared",
+              "--disable-static",
+              "--enable-unicode",
+              "--enable-display",
+              "--enable-propgrid",
+              "--enable-stc",
+              "--with-gtk=2",
+              "--with-opengl",
+              "--with-libjpeg",
+              "--with-libpng",
+              "--with-zlib",
+              "--disable-webkit",
+              "--disable-webview",
+              "--disable-ribbon"
+            ],
+            "sources": [
+              {
+                "type": "archive",
+                "url": "https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.4/wxWidgets-3.0.4.tar.bz2",
+                "sha256": "96157f988d261b7368e5340afa1a0cad943768f35929c22841f62c25b17bf7f0"
+              },
+              {
+                "type": "shell",
+                "commands": [
+                  "cp -p /usr/share/automake-*/config.{sub,guess} .;",
+                  "autoconf -f -B \"build/autoconf_prepend-include\";"
+                ]
+              }
+            ],
+            "post-install": [
+              "install -p -D -m 0644  \"docs/gpl.txt\" \"docs/lgpl.txt\" \"docs/licence.txt\" -t \"${FLATPAK_DEST}/share/licenses/wxwidgets/\";"
+            ],
+            "cleanup": [
+              "/bin",
+              "/lib/wx",
+              "/share/bakefile"
+            ],
+            "modules": [
+                "shared-modules/gtk2/gtk2.json",
+                "shared-modules/glu/glu-9.json"
+            ]
+          },
+          {
+              "name" : "scyther",
+              "buildsystem": "simple",
+              "build-commands": [
+                  "mkdir -p /app/scyther",
+                  "cp -r ./* /app/scyther"
+                ],
+              "sources" : [
+                {
+                    "type": "archive",
+                    "url": "https://people.cispa.io/cas.cremers/downloads/scyther/scyther-linux-v1.1.3.tgz",
+                    "sha256": "5829daf7252ca92ed40041bbdb0012c091d36f16855d802ed7a792f3f8dad6a6"
+                }
+              ]
+          }
+    ]
+}
