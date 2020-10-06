@@ -11,6 +11,9 @@
      "--socket=wayland",
      "--talk-name=org.freedesktop.Notifications",
      "--filesystem=host",
+    "--filesystem=xdg-run/gvfs",
+    "--filesystem=xdg-run/dconf",
+    "--filesystem=~/.config/dconf:ro",
      "--device=dri"
   ],
   "modules":[
@@ -31,7 +34,8 @@
         "name":"wxPython",
         "buildsystem":"simple",
         "build-commands":[
-           "./configure --prefix=/app --libdir=/app/lib --includedir=/app/include --with-gtk=2 --disable-monolithic --disable-rpath --with-opengl --with-gnomeprint --enable-geometry --enable-sound --with-sdl --enable-unicode --enable-graphics_ctx --disable-optimize --with-libpng=builtin --with-zlib=builtin --with-libjpeg=builtin --with-libtiff=builtin --disable-precomp-header && cd ./wxPython && python2 setup.py WXPORT=gtk2 UNICODE=1 build && python2 setup.py WXPORT=gtk2 UNICODE=1 install"
+           "./configure --prefix=/app --libdir=/app/lib --includedir=/app/include --with-gtk=2 --disable-monolithic --disable-rpath --with-opengl --with-gnomeprint --enable-geometry --enable-sound --with-sdl --enable-unicode --enable-graphics_ctx --disable-optimize --with-libpng=builtin --with-zlib=builtin --with-libjpeg=builtin --with-libtiff=builtin --disable-precomp-header",
+           "cd ./wxPython && python2 setup.py WXPORT=gtk2 UNICODE=1 build && python2 setup.py WXPORT=gtk2 UNICODE=1 install"
         ],
         "sources":[
            {
