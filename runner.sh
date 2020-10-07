@@ -1,2 +1,2 @@
 #!/bin/sh
-python2 /app/scyther/scyther-gui.py "$@"
+cd /app/bin/scyther/ && python2 gui/scyther-gui.py "$@"
